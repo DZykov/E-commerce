@@ -19,8 +19,25 @@ const cartSlice = createSlice({
                 state.push({ item: action.payload, count: 1 } as pair);
             }
         },
+        removeItem(state, action) {
+            state.forEach(function (pair: pair, index: number) {
+                if (pair.item.id == action.payload.id) {
+                    state.splice(index, 1);
+                }
+            });
+        },
+        decrementItem(state, action) {
+            state.forEach(function (pair: pair, index: number) {
+                if (pair.item.id == action.payload.id) {
+                    state[index].count--;
+                    if (state[index].count == 0) {
+                        state.splice(index, 1);
+                    }
+                }
+            });
+        },
     },
 });
 
-export const { add } = cartSlice.actions;
+export const { add, removeItem, decrementItem } = cartSlice.actions;
 export default cartSlice.reducer;

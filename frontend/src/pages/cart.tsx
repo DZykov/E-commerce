@@ -1,12 +1,43 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import state from "../store/state.ts";
 import pair from "../classes/pair.ts";
 import { Link } from "react-router-dom";
+import { removeItem } from "../store/cartSlice.ts";
 import Counter from "../components/counter.tsx";
+import product from "../classes/product.ts";
+import { useEffect, useState } from "react";
 
 function Cart() {
 
     const cartProducts: pair[] = useSelector<state>(state => state.cart) as pair[];
+
+    const [price, setPrice] = useState(0)
+
+    function getTotal() {
+        var total: number = 0;
+        cartProducts.forEach(function (pair: pair) {
+            total += pair.count * parseFloat(pair.item.price);
+        });
+        setPrice(total);
+    }
+
+    useEffect(() => {
+        getTotal();
+    });
+
+    const disppatch = useDispatch();
+
+    function removeFromCart(item: product) {
+        disppatch(removeItem(item));
+    };
+
+    function get_items() {
+        var count: number = 0;
+        cartProducts.forEach(function (pair: pair) {
+            count += pair.count;
+        });
+        return count;
+    }
 
     const cards = cartProducts.map(pair => (
         <div className="col-span-1 flex flex-col bg-white border-2 p-4" key={pair.item.id}>
@@ -27,7 +58,7 @@ function Cart() {
             <div className="bottom-0 mx-auto">
                 <Counter {...pair} />
             </div>
-            <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Remove</button>
+            <button onClick={() => removeFromCart(pair.item)} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Remove</button>
         </div>
     ));
 
@@ -37,7 +68,13 @@ function Cart() {
                 <div className="container mx-auto grid gap-4 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
                     {cards}
                 </div>
-                <div className="bg-red-100">price total</div>
+                <div className="p-6 lg:w-9/12 md:w-1/2 sm:full mx-auto px-6">
+                    <p className="leading-relaxed">You have: {get_items()}</p>
+                    <p className="leading-relaxed">Your total: ${price}</p>
+                    <Link to={"/checkout"}>
+                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">CHECKOUT</button>
+                    </Link>
+                </div>
             </section>
         </>
     );
