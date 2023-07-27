@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import pair from "../classes/pair.ts";
+import product from "../classes/product.ts";
 
 const initialState: pair[] = [];
 
@@ -7,7 +8,7 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        add(state, action) {
+        add(state, action: PayloadAction<product>) {
             let _new: boolean = true;
             state.forEach(function (pair: pair, index: number) {
                 if (pair.item.id == action.payload.id) {
@@ -20,13 +21,9 @@ const cartSlice = createSlice({
             }
         },
         removeItem(state, action) {
-            state.forEach(function (pair: pair, index: number) {
-                if (pair.item.id == action.payload.id) {
-                    state.splice(index, 1);
-                }
-            });
+            return state.filter(pair => pair.item.id !== action.payload.id);
         },
-        decrementItem(state, action) {
+        decrementItem(state, action: PayloadAction<product>) {
             state.forEach(function (pair: pair, index: number) {
                 if (pair.item.id == action.payload.id) {
                     state[index].count--;

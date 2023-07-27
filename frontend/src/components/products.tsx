@@ -1,24 +1,25 @@
 import product from "../classes/product";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { add } from "../store/cartSlice";
 import { Link } from "react-router-dom";
+import { getProducts } from "../store/shopSlice";
+import { RootState, useAppDispatch, useAppSelector } from "../store/store";
+
 
 // change product to product[]
 
 function Products() {
 
-    const disppatch = useDispatch();
-    const [products, getProducts] = useState<product[]>([]);
+    const dispatch = useAppDispatch();
+    const products: product[] = useAppSelector((state: RootState) => state.shop);
+
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/products')
-            .then(res => res.json())
-            .then(data => getProducts(data))
+        dispatch(getProducts());
     }, []);
 
     const addToCart = (product: product) => {
-        disppatch(add(product));
+        dispatch(add(product));
     };
 
     const cards = products.map(product => (
