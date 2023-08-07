@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import state from "../store/state";
 import { Link } from 'react-router-dom';
 import pair from "../types/pair";
+import { RootState } from "../store/store";
 
 function Navbar() {
 
-    const cartProducts: pair[] = useSelector<state>(state => state.cart) as pair[];
+    const cartProducts: pair[] = useSelector<RootState>(state => state.cart) as pair[];
 
     function get_items() {
         var count: number = 0;

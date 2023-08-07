@@ -15,7 +15,10 @@ const shopSlice = createSlice({
         builder.addCase(getProducts.fulfilled, (state, action) => {
             return action.payload;
         });
-    }
+        builder.addCase(getProductsCategory.fulfilled, (state, action) => {
+            return action.payload;
+        });
+    },
 });
 
 export const { /*fetchProducts*/ } = shopSlice.actions;
@@ -25,5 +28,16 @@ export const getProducts = createAsyncThunk('products/get', async () => {
     var data = await fetch('https://fakestoreapi.com/products')
         .then(res => res.json());
     return data;
-})
+});
 
+export const getProductsCategory = createAsyncThunk('products/category', async (str: string) => {
+    if (str) {
+        var data = await fetch('https://fakestoreapi.com/products/category/' + str)
+            .then(res => res.json());
+        return data;
+    } else {
+        var data = await fetch('https://fakestoreapi.com/products')
+            .then(res => res.json());
+        return data;
+    }
+});
