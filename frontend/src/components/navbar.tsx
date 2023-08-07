@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import state from "../store/state";
 import { Link } from 'react-router-dom';
-import pair from "../classes/pair";
+import pair from "../types/pair";
 
 function Navbar() {
 

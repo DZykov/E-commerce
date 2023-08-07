@@ -1,4 +1,4 @@
-import product from "../classes/product";
+import product from "../types/product";
 import { useEffect } from "react";
 import { add } from "../store/cartSlice";
 import { Link } from "react-router-dom";

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import pair from "../classes/pair.ts";
-import product from "../classes/product.ts";
+import pair from "../types/pair.ts";
+import product from "../types/product.ts";
 
 const initialState: pair[] = [];
 

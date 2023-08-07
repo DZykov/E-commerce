@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import product from "../classes/product.ts";
+import product from "../types/product.ts";
 
 const initialState: product[] = [];
 

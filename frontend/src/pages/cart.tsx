@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import state from "../store/state.ts";
-import pair from "../classes/pair.ts";
+import pair from "../types/pair.ts";
 import { Link } from "react-router-dom";
 import { removeItem } from "../store/cartSlice.ts";
 import Counter from "../components/counter.tsx";
-import product from "../classes/product.ts";
+import product from "../types/product.ts";
 import { useEffect, useState } from "react";
+import { RootState } from "../store/store.ts";
 
 function Cart() {
 
-    const cartProducts: pair[] = useSelector<state>(state => state.cart) as pair[];
+    const cartProducts: pair[] = useSelector<RootState>(state => state.cart) as pair[];
 
     const [price, setPrice] = useState(0)
 

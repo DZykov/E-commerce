@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import product from "../classes/product.ts";
+import product from "../types/product.ts";
 import Counter from "./counter.tsx";
 
 function Product(product: product): ReactNode {

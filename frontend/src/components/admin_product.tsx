@@ -1,4 +1,4 @@
-import product from "../classes/product";
+import product from "../types/product";
 
 function AdminProduct(product: product) {
 

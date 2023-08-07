@@ -12,7 +12,7 @@ import Login from "./pages/login.tsx";
 import Register from "./pages/register.tsx";
 import Account from "./pages/account.tsx";
 import Cart from "./pages/cart.tsx";
-import Product from "./pages/product.tsx";
+import ProductPage from "./pages/product_page.tsx";
 import ProductAdmin from "./pages/product_admin.tsx";
 import RootLayout from './layouts/root_layout.tsx';
 import Checkout from './pages/checkout.tsx';
@@ -25,7 +25,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/register' element={<Register />}></Route>
     <Route path='/account' element={<Account />}></Route>
     <Route path='/aproduct' element={<ProductAdmin />}></Route>
-    <Route path='/product' element={<Product />}></Route>
+    <Route path='/product/:id' element={<ProductPage />}></Route>
     <Route path='/checkout' element={<Checkout />}></Route>
   </Route>
 ));

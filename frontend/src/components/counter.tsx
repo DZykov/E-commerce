@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import pair from "../classes/pair.ts";
+import pair from "../types/pair.ts";
 import { add, decrementItem } from "../store/cartSlice.ts";
 import { useState } from "react";
 
