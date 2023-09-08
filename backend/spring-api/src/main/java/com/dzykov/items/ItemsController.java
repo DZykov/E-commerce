@@ -1,6 +1,8 @@
 package com.dzykov.items;
 
 import com.dzykov.config.Endpoints;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ public class ItemsController {
 
     private final ItemsService itemsService;
 
+    //@Operation(hidden = true)
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "items-controller"})
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PostMapping(
             value = "/create", consumes = "application/json", produces = "application/json")
@@ -21,12 +25,14 @@ public class ItemsController {
         return itemsService.createItem(item);
     }
 
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "items-controller"})
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @DeleteMapping("/delete/{id}")
     public void deleteItem(@PathVariable("id") Integer id) {
         itemsService.deleteItemById(id);
     }
 
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "items-controller"})
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PutMapping(value = "/update/{id}",
         consumes = "application/json", produces = "application/json")
@@ -35,7 +41,7 @@ public class ItemsController {
     }
 
     @GetMapping("/get/{id}")
-    public Items searchItems(@PathVariable("id") Integer id) {
+    public Items getItems(@PathVariable("id") Integer id) {
         return itemsService.getItemById(id);
     }
 

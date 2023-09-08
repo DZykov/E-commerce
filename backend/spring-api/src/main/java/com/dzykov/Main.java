@@ -1,7 +1,5 @@
 package com.dzykov;
 
-import static com.dzykov.user.Role.ADMIN;
-import static com.dzykov.user.Role.MANAGER;
 import com.dzykov.auth.AuthenticationService;
 import com.dzykov.auth.RegisterRequest;
 
@@ -9,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import static com.dzykov.user.Role.*;
 
 @SpringBootApplication
 public class Main {
@@ -38,6 +38,24 @@ public class Main {
                     .role(MANAGER)
                     .build();
             System.out.println("Manager token: " + service.register(manager).getAccessToken());
+
+            var user = RegisterRequest.builder()
+                    .firstname("userN")
+                    .lastname("userL")
+                    .email("user@mail.com")
+                    .password("user_password")
+                    .role(USER)
+                    .build();
+            System.out.println("User token: " + service.register(user).getAccessToken());
+
+            var user1 = RegisterRequest.builder()
+                    .firstname("userN")
+                    .lastname("userL")
+                    .email("user1@mail.com")
+                    .password("user_password")
+                    .role(USER)
+                    .build();
+            System.out.println("User1 token: " + service.register(user1).getAccessToken());
         };
     }
 

@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-
 import static com.dzykov.user.Role.ADMIN;
 import static com.dzykov.user.Role.MANAGER;
 
@@ -31,12 +30,18 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                //.addFilterBefore(new JWTAuthorizationFilter(), BasicAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(Endpoints.authEndpoint + Endpoints.allEndings).permitAll()
+                                .requestMatchers("/api-docs/**").permitAll()
+                                .requestMatchers("/swagger.html").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers(Endpoints.userEndpoint + Endpoints.allEndings).authenticated() // change // done
+                                .requestMatchers(Endpoints.cartEndpoint + Endpoints.allEndings).authenticated() // change
+                                .requestMatchers(Endpoints.authEndpoint + Endpoints.allEndings).permitAll()  // done
                                 .requestMatchers(Endpoints.generalEndpoint + Endpoints.allEndings).permitAll()
-                                .requestMatchers(Endpoints.itemsEndpoint + Endpoints.allEndings).permitAll()
+                                .requestMatchers(Endpoints.itemsEndpoint + Endpoints.allEndings).permitAll()  // done
                                 .requestMatchers(Endpoints.secureEndpoint + Endpoints.allEndings).authenticated()
                                 .requestMatchers(Endpoints.managementEndpoint + Endpoints.allEndings).hasAnyRole(ADMIN.name(), MANAGER.name())
                                 //.requestMatchers(GET, "/api/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())

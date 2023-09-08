@@ -1,6 +1,12 @@
 package com.dzykov.user;
 
+import com.dzykov.cart.Carts;
 import com.dzykov.token.Token;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,16 +14,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 @Data
 @Builder
@@ -25,6 +24,9 @@ import jakarta.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(value = {
+        "password"
+})
 public class User implements UserDetails {
 
     @Id
@@ -32,14 +34,19 @@ public class User implements UserDetails {
     private Integer id;
     private String firstname;
     private String lastname;
+    @Column(unique=true)
     private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Carts cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

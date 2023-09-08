@@ -1,4 +1,57 @@
 package com.dzykov.user;
 
+import com.dzykov.config.Endpoints;
+import com.dzykov.items.Items;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import static com.dzykov.user.Role.ADMIN;
+import static com.dzykov.user.Role.MANAGER;
+
+@RestController
+@RequestMapping(value = {Endpoints.userEndpoint})
+@RequiredArgsConstructor
 public class UserController {
+
+    private final UserService userService;
+
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "user-controller"})
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'MANAGER')")
+    @Secured(value = "USER")
+    @GetMapping(value = {"/get/{id}"})
+    public User getUserDetails(@PathVariable("id") Integer id) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
+                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+            return userService.getUserById(id);
+
+        }
+        return userService.getUserByEmail(securityContext.getAuthentication().getName());
+    }
+
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "user-controller"})
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'MANAGER')")
+    @Secured(value = "USER")
+    @PutMapping(value = {"/update/{id}"}, consumes = "application/json", produces = "application/json")
+    public User getUserDetails(@PathVariable("id") Integer id, @RequestBody User user) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
+                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+            return userService.updateUserById(id, user);
+
+        }
+        return userService.updateUserById(
+                userService.getUserByEmail(securityContext.getAuthentication().getName()).getId(),
+                user);
+    }
+
 }
