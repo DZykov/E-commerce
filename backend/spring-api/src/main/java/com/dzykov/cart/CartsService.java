@@ -16,6 +16,7 @@ public class CartsService {
     private final CartsRepository cartsRepository;
     private final UserRepository userRepository;
 
+    @Deprecated // Just to ignore warnings
     public Carts getCartById(Integer id){
         if (cartsRepository.findById(id).isEmpty()) {return Carts.builder().build();}
         return cartsRepository.findById(id).get();

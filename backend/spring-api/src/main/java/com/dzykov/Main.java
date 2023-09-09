@@ -2,11 +2,15 @@ package com.dzykov;
 
 import com.dzykov.auth.AuthenticationService;
 import com.dzykov.auth.RegisterRequest;
+import com.dzykov.items.Items;
+import com.dzykov.items.ItemsService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+
+import java.util.Arrays;
 
 import static com.dzykov.user.Role.*;
 
@@ -17,10 +21,36 @@ public class Main {
     }
 
     @Bean
+    @Order(1)
+    public CommandLineRunner createItems(ItemsService service) {
+        return args -> {
+            Items item = Items.builder()
+                    .name("JBL 2: Super Puper")
+                    .category("Headphones")
+                    .description("Best headphones ever.")
+                    .price(23.97)
+                    .pictures(Arrays.asList(new String[]{
+                            "item1pic1", "item1pic2"
+                    }))
+                    .build();
+            service.createItem(item);
+
+            item = Items.builder()
+                    .name("JBL 100: Super WoW!")
+                    .price(199.99)
+                    .category("Headphones")
+                    .description("Expensive like my degree!")
+                    .pictures(Arrays.asList(new String[]{
+                            "item2pic1", "item2pic2"
+                    }))
+                    .build();
+            service.createItem(item);
+        };
+    }
+
+    @Bean
     @Order(2)
-    public CommandLineRunner createUsers(
-            AuthenticationService service
-    ) {
+    public CommandLineRunner createUsers(AuthenticationService service) {
         return args -> {
             var admin = RegisterRequest.builder()
                     .firstname("AdminN")

@@ -30,7 +30,7 @@ public class ItemsService {
             return createItem(item);
         }
 
-        Items itemNew = itemsRepository.findById(id).get();;
+        Items itemNew = itemsRepository.findById(id).get();
         itemNew.setName(item.getName());
         itemNew.setDescription(item.getDescription());
         itemNew.setCategory(item.getCategory());
