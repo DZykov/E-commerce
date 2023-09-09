@@ -38,9 +38,13 @@ public class ManagementController {
             return userService.createEmptyUser();
         }
         User user = User.builder()
-                .email(json.get("user").get("email").asText())
+                .email(json.get("user").get("email").asText().toLowerCase())
                 .firstname(json.get("user").get("firstname").asText())
                 .lastname(json.get("user").get("lastname").asText())
+                .street(json.get("user").get("street").asText())
+                .country(json.get("user").get("country").asText())
+                .postalCode(json.get("user").get("postalCode").asText().toUpperCase())
+                .city(json.get("user").get("city").asText())
                 .role(Role.valueOf(json.get("user").get("role").asText()))
                 .build();
         String password = json.get("password").asText();

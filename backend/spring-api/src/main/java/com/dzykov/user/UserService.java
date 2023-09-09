@@ -1,5 +1,6 @@
 package com.dzykov.user;
 
+import com.dzykov.cart.Carts;
 import com.dzykov.cart.CartsService;
 import com.dzykov.token.Token;
 import com.dzykov.token.TokenRepository;
@@ -48,6 +49,10 @@ public class UserService {
         // NOTE: changing username/email requires regenerating JWT tokens for this entity, and sending that Token back to user.
         userNew.setFirstname(user.getFirstname());
         userNew.setLastname(user.getLastname());
+        userNew.setCity(user.getCity());
+        userNew.setCountry(user.getCountry());
+        userNew.setPostalCode(user.getPostalCode());
+        userNew.setStreet(user.getStreet());
         userRepository.save(userNew);
         return userNew;
     }
@@ -96,6 +101,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setNonLocked(true);
         user.setEnabled(true);
+        user.setCart(Carts.builder().build());
         userRepository.save(user);
         cartsService.createCartByUser(user);
         return user;

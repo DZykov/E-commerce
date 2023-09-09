@@ -18,15 +18,15 @@ public interface ItemsRepository extends JpaRepository<Items, Integer> {
         nativeQuery = true)
     void deleteItemById(@Param("id") Integer id);
 
-    @Query(value = "SELECT * FROM items d WHERE to_tsvector('english', d.description) @@ to_tsquery('english', :query)",
+    @Query(value = "SELECT * FROM items d WHERE to_tsvector('english', d.description) @@ plainto_tsquery('english', :query)",
             nativeQuery = true)
     List<Items> searchByDescription(@Param("query") String query);
 
-    @Query(value = "SELECT * FROM items d WHERE to_tsvector('english', d.category) @@ to_tsquery('english', :query)",
+    @Query(value = "SELECT * FROM items d WHERE to_tsvector('english', d.category) @@ plainto_tsquery('english', :query)",
             nativeQuery = true)
     List<Items> searchByCategory(@Param("query") String query);
 
-    @Query(value = "SELECT * FROM items d WHERE to_tsvector('english', d.name) @@ to_tsquery('english', :query)",
+    @Query(value = "SELECT * FROM items d WHERE to_tsvector('english', d.name) @@ plainto_tsquery('english', :query)",
             nativeQuery = true)
     List<Items> searchByName(@Param("query") String query);
 
