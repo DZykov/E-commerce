@@ -34,3 +34,4 @@ springdoc:
     resolve-schema-properties: true
   swagger-ui:
     path: /swagger.html
+    tags-sorter: alpha

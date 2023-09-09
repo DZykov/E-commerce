@@ -17,7 +17,7 @@ public class ItemsController {
     private final ItemsService itemsService;
 
     //@Operation(hidden = true)
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "items-controller"})
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"2. Manager", "items-controller"})
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PostMapping(
             value = "/create", consumes = "application/json", produces = "application/json")
@@ -25,14 +25,14 @@ public class ItemsController {
         return itemsService.createItem(item);
     }
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "items-controller"})
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"2. Manager", "items-controller"})
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @DeleteMapping("/delete/{id}")
     public void deleteItem(@PathVariable("id") Integer id) {
         itemsService.deleteItemById(id);
     }
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "items-controller"})
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"2. Manager", "items-controller"})
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @PutMapping(value = "/update/{id}",
         consumes = "application/json", produces = "application/json")
@@ -40,11 +40,13 @@ public class ItemsController {
         return itemsService.updateItemById(id, item);
     }
 
+    @Operation(tags = {"3. User", "items-controller", "general-controller"})
     @GetMapping("/get/{id}")
     public Items getItems(@PathVariable("id") Integer id) {
         return itemsService.getItemById(id);
     }
 
+    @Operation(tags = {"3. User", "items-controller", "general-controller"})
     @GetMapping("/search")
     public List<Items> searchItems(@RequestParam("query") String query) {
         return itemsService.searchItems(query);

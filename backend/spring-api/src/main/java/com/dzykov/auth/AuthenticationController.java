@@ -1,6 +1,7 @@
 package com.dzykov.auth;
 
 import com.dzykov.config.Endpoints;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,15 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
+    @Operation(description = "Property role will be ignored", tags = {"3. User", "auth-controller"})
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(service.register(request));
     }
+
+    @Operation(tags = {"3. User", "auth-controller"})
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
@@ -32,6 +36,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    @Operation(tags = {"3. User", "auth-controller"})
     @PostMapping("/refresh-token")
     public void refreshToken(
             HttpServletRequest request,

@@ -15,6 +15,7 @@
     <description>spring-api</description>
     <properties>
         <java.version>20</java.version>
+        <start-class>com.dzykov.Main</start-class>
     </properties>
     <dependencies>
 

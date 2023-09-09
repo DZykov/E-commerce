@@ -5,6 +5,7 @@ import com.dzykov.config.JwtService;
 import com.dzykov.token.Token;
 import com.dzykov.token.TokenRepository;
 import com.dzykov.token.TokenType;
+import com.dzykov.user.Role;
 import com.dzykov.user.User;
 import com.dzykov.user.UserRepository;
 
@@ -38,8 +39,27 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(Role.USER)
+                .nonLocked(true)
+                .enabled(true)
                 .build();
+        return saveRequestUser(user);
+    }
+
+    public AuthenticationResponse create(RegisterRequest request) {
+        var user = User.builder()
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
+                .enabled(true)
+                .nonLocked(true)
+                .build();
+        return saveRequestUser(user);
+    }
+
+    private AuthenticationResponse saveRequestUser(User user) {
         var savedUser = repository.save(user);
         saveUserCart(savedUser);
         var jwtToken = jwtService.generateToken(user);
@@ -71,7 +91,7 @@ public class AuthenticationService {
     }
 
     private void saveUserCart(User user) {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         var cart = Carts.builder()
                 .user(user)
                 .itemsId(list)

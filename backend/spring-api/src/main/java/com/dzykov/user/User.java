@@ -2,10 +2,8 @@ package com.dzykov.user;
 
 import com.dzykov.cart.Carts;
 import com.dzykov.token.Token;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +12,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,6 +34,9 @@ public class User implements UserDetails {
     @Column(unique=true)
     private String email;
     private String password;
+
+    private boolean enabled = true;
+    private boolean nonLocked = true;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -69,17 +69,17 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    public boolean isAccountNonLocked() {
+        return nonLocked;
+    }
+
+    @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

@@ -1,7 +1,6 @@
 package com.dzykov.user;
 
 import com.dzykov.config.Endpoints;
-import com.dzykov.items.Items;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "user-controller"})
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            tags = {"2. Manager", "user-controller", "3. User"},
+            description = "Gets user's information. " +
+                    "Admin or Manager has to provide an id of user. User has to provide id as 0 or any number")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'MANAGER')")
     @Secured(value = "USER")
     @GetMapping(value = {"/get/{id}"})
@@ -37,11 +39,14 @@ public class UserController {
         return userService.getUserByEmail(securityContext.getAuthentication().getName());
     }
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager", "user-controller"})
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") },
+            tags = {"2. Manager", "user-controller", "3. User"},
+            description = "Updates user's information. " +
+                    "Admin or Manager has to provide an id of user. User has to provide id as 0 or any number")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'MANAGER')")
     @Secured(value = "USER")
     @PutMapping(value = {"/update/{id}"}, consumes = "application/json", produces = "application/json")
-    public User getUserDetails(@PathVariable("id") Integer id, @RequestBody User user) {
+    public User updateUserDetails(@PathVariable("id") Integer id, @RequestBody User user) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
         if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||

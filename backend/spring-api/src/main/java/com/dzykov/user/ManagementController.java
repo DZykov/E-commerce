@@ -1,44 +1,50 @@
 package com.dzykov.user;
 
+
 import com.dzykov.config.Endpoints;
-import com.dzykov.items.Items;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import static com.dzykov.user.Role.ADMIN;
-import static com.dzykov.user.Role.MANAGER;
-
 @RestController
-@RequestMapping(value = {Endpoints.managementEndpoint})
+@RequestMapping(value = {Endpoints.managementEndpoint + Endpoints.user})
 @RequiredArgsConstructor
 public class ManagementController {
 
     private final UserService userService;
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager"})
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    @GetMapping("/delete/{id}")
-    // TODO
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"1. Admin", "management-controller"})
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
     public User deleteUser(@PathVariable("id") Integer id) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        return null;
+        return userService.deleteUserById(id);
     }
 
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"Admin", "Manager"})
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    @PutMapping(value = "/block/{id}", consumes = "application/json", produces = "application/json")
-    // TODO
-    public User getUserDetails(@PathVariable("id") Integer id, @RequestBody User user) {
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"1. Admin", "management-controller"})
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping(value = "/block/{block}/{id}")
+    public User blockUser(@PathVariable("id") Integer id, @PathVariable("block") boolean block) {
+        return userService.blockUserById(id, block);
+    }
 
-        return null;
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") }, tags = {"1. Admin", "management-controller"})
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping(value = "/create", consumes = "application/json", produces = "application/json")
+    public User createUser(@RequestBody ObjectNode json) {
+        if (json.get("user") == null || json.get("password") == null) {
+            return userService.createEmptyUser();
+        }
+        User user = User.builder()
+                .email(json.get("user").get("email").asText())
+                .firstname(json.get("user").get("firstname").asText())
+                .lastname(json.get("user").get("lastname").asText())
+                .role(Role.valueOf(json.get("user").get("role").asText()))
+                .build();
+        String password = json.get("password").asText();
+        return userService.createUser(user, password);
     }
 
 }

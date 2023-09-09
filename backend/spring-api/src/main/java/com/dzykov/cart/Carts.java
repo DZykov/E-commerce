@@ -2,14 +2,11 @@ package com.dzykov.cart;
 
 import com.dzykov.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,14 +31,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                //.addFilterBefore(new JWTAuthorizationFilter(), BasicAuthenticationFilter.class)
+                // NOTE: frame options are disabled for rendering swagger-ui in frontend as iframe
+                .headers( headers ->
+                        headers
+                                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger.html").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers(Endpoints.userEndpoint + Endpoints.allEndings).authenticated() // change // done
+                                .requestMatchers(Endpoints.userEndpoint + Endpoints.allEndings).authenticated()  // done
                                 .requestMatchers(Endpoints.cartEndpoint + Endpoints.allEndings).authenticated() // change
                                 .requestMatchers(Endpoints.authEndpoint + Endpoints.allEndings).permitAll()  // done
                                 .requestMatchers(Endpoints.generalEndpoint + Endpoints.allEndings).permitAll()
