@@ -1,9 +1,9 @@
 type address = {
     street: string;
     city: string;
-    province: string;
     country: string,
-    postal: string;
+    postalCode: string;
 };
 
 export default address;
+

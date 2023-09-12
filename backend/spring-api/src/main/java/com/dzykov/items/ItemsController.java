@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(value = {Endpoints.itemsEndpoint})
 @RequiredArgsConstructor
@@ -51,4 +52,11 @@ public class ItemsController {
     public List<Items> searchItems(@RequestParam("query") String query) {
         return itemsService.searchItems(query);
     }
+
+    @Operation(tags = {"3. User", "items-controller", "general-controller"})
+    @GetMapping("/all")
+    public List<Items> getAllItems() {
+        return itemsService.getAllItems();
+    }
+
 }

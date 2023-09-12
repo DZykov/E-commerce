@@ -1,10 +1,10 @@
 interface product {
     id: number;
-    title: string;
-    price: string;
+    name: string;
+    price: number;
     category: string;
     description: string;
-    image: string;
+    pictures: string[];
 };
 
 export default product;

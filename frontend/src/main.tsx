@@ -16,6 +16,7 @@ import ProductPage from "./pages/product_page.tsx";
 import ProductAdmin from "./pages/product_admin.tsx";
 import RootLayout from './layouts/root_layout.tsx';
 import Checkout from './pages/checkout.tsx';
+import Docs from './pages/docs.tsx';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<RootLayout />}>
@@ -27,6 +28,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/aproduct' element={<ProductAdmin />}></Route>
     <Route path='/product/:id' element={<ProductPage />}></Route>
     <Route path='/checkout' element={<Checkout />}></Route>
+    <Route path='/docs' element={<Docs />}></Route>
   </Route>
 ));
 

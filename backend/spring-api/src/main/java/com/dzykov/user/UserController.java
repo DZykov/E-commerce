@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.dzykov.user.Role.ADMIN;
 import static com.dzykov.user.Role.MANAGER;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(value = {Endpoints.userEndpoint})
 @RequiredArgsConstructor
@@ -33,8 +34,8 @@ public class UserController {
 
         if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
                 securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+            if (id == 0) {return userService.getUserByEmail(securityContext.getAuthentication().getName());}
             return userService.getUserById(id);
-
         }
         return userService.getUserByEmail(securityContext.getAuthentication().getName());
     }

@@ -12,10 +12,11 @@ const shopSlice = createSlice({
         //},
     },
     extraReducers: (builder) => {
-        builder.addCase(getProducts.fulfilled, (state, action) => {
+        builder.addCase(getProducts.fulfilled, (_state, action) => {
+            console.log(action.payload)
             return action.payload;
         });
-        builder.addCase(getProductsCategory.fulfilled, (state, action) => {
+        builder.addCase(getProductsSearch.fulfilled, (_state, action) => {
             return action.payload;
         });
     },
@@ -25,19 +26,18 @@ export const { /*fetchProducts*/ } = shopSlice.actions;
 export default shopSlice.reducer;
 
 export const getProducts = createAsyncThunk('products/get', async () => {
-    var data = await fetch('https://fakestoreapi.com/products')
+    var data = await fetch('http://localhost:3000/api/item/all')
         .then(res => res.json());
     return data;
 });
 
-export const getProductsCategory = createAsyncThunk('products/category', async (str: string) => {
-    if (str) {
-        var data = await fetch('https://fakestoreapi.com/products/category/' + str)
-            .then(res => res.json());
-        return data;
-    } else {
-        var data = await fetch('https://fakestoreapi.com/products')
+export const getProductsSearch = createAsyncThunk('products/search', async (search: string) => {
+    if (search) {
+        var data = await fetch('http://localhost:3000/api/item/search?query=' + search)
             .then(res => res.json());
         return data;
     }
+    var data = await fetch('http://localhost:3000/api/item/all')
+        .then(res => res.json());
+    return data;
 });

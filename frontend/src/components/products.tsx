@@ -27,11 +27,11 @@ function Products() {
         <div className="col-span-1 flex flex-col bg-white border-2 p-4" key={product.id}>
             <div className="my-auto">
                 <Link to={"/product/" + product.id} className="block relative h-48 rounded overflow-hidden">
-                    <img alt="ecommerce" className="object-fit object-center w-auto h-48 block mx-auto" src={product.image} />
+                    <img alt="ecommerce" className="object-fit object-center w-auto h-48 block mx-auto" src={product.pictures[0]} />
                 </Link>
                 <h2 className="mb-2 font-bold text-2xl">
                     <Link to={"/product/" + product.id}>
-                        {product.title}
+                        {product.name}
                     </Link>
                 </h2>
                 <div className="mb-4 flex flex-wrap">

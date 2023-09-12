@@ -5,7 +5,6 @@ function Shop() {
 
     return (
         <>
-            <iframe src="http://localhost:3000/swagger-ui/index.html"></iframe>
             <Search />
             <Products />
             {

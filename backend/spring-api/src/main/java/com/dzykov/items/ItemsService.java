@@ -72,4 +72,8 @@ public class ItemsService {
         return finalResult;
     }
 
+    public List<Items> getAllItems(){
+        return itemsRepository.findAll();
+    }
+
 }

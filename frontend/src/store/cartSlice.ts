@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import pair from "../types/pair.ts";
 import product from "../types/product.ts";
 
@@ -34,6 +34,27 @@ const cartSlice = createSlice({
             });
         },
     },
+    extraReducers: (builder) => {
+        builder.addCase(updateCart.fulfilled, (_state, _action) => {
+
+        });
+    }
+});
+
+export const updateCart = createAsyncThunk('cart/update', async (cart: pair[]) => {
+    let items!: number[];
+    cart.forEach(function (pair: pair, _index: number) {
+        items.concat(Array(pair.count).fill(pair.item.id));
+    });
+    var data = await fetch('http://localhost:3000/api/cart/add', {
+        method: 'POST',
+        headers: new Headers({
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(items)
+    }).then(res => res.json());
+    return data;
 });
 
 export const { add, removeItem, decrementItem } = cartSlice.actions;

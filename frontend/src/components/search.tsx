@@ -1,7 +1,7 @@
 import { useAppDispatch } from "../store/store";
 import { useEffect, useState } from 'react';
 import useDebounce from "../helpers/debounceState";
-import { getProductsCategory } from "../store/shopSlice";
+import { getProductsSearch } from "../store/shopSlice";
 
 
 function Search() {
@@ -16,7 +16,7 @@ function Search() {
     };
 
     useEffect(() => {
-        dispatch(getProductsCategory(search));
+        dispatch(getProductsSearch(search));
     }, [debouncedSearch]);
 
     return (

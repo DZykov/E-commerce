@@ -35,8 +35,8 @@ public class CartsController {
 
         if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
                 securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+            if (id == 0) {cartsService.getCartUserByEmail(securityContext.getAuthentication().getName());}
             return cartsService.getCartByUserId(id);
-
         }
         return cartsService.getCartUserByEmail(securityContext.getAuthentication().getName());
     }
