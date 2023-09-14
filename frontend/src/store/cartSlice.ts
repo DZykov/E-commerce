@@ -41,23 +41,23 @@ const cartSlice = createSlice({
         builder.addCase(getCart.fulfilled, (state, action) => {
             state = initialState;
             action.payload.itemsId.forEach((item_id: number) => {
-                var p: product = {
-                    id: item_id,
-                    description: "",
-                    price: 0,
-                    name: "",
-                    category: "",
-                    pictures: [],
-                };
                 let _new: boolean = true;
                 state.forEach(function (pair: pair, index: number) {
-                    if (pair.item.id == action.payload.id) {
+                    if (pair.item.id == item_id) {
                         state[index].count++;
                         _new = false;
                     }
                 });
                 if (_new) {
-                    state.push({ item: action.payload, count: 1 } as pair);
+                    var p: product = {
+                        id: item_id,
+                        description: "",
+                        price: 0,
+                        name: "",
+                        category: "",
+                        pictures: [],
+                    };
+                    state.push({ item: p, count: 1 } as pair);
                 }
             });
         });

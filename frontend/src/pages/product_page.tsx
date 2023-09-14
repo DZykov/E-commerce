@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import Product from "../components/product";
 import { useEffect, useState } from "react";
 import product from "../types/product";
+import { getItem } from "../store/api";
 
 const emptyProduct: product = {
     id: 0,
@@ -20,12 +21,8 @@ function ProductPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch(
-                "http://localhost:3000/api/item/get/" + ID)
-                .then((res) => res.json())
-                .then((json) => {
-                    setProduct(json);
-                })
+            const data: product = await getItem(parseInt(ID!));
+            setProduct(data);
         }
         fetchData()
             .catch(console.error);

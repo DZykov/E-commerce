@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import user from "../types/user.ts";
+import { getToken, setToken, removeToken } from "./api.ts";
 
 const initialState: user = {
     id: 0,
@@ -97,7 +98,7 @@ export const getMe = createAsyncThunk('user/get', async (id: number) => {
 });
 
 export const updateUser = createAsyncThunk('user/update', async (user: user) => {
-    var data = await fetch('http://localhost:3000/api/management/user/update/0', {
+    await fetch('http://localhost:3000/api/management/user/update/0', {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -107,38 +108,3 @@ export const updateUser = createAsyncThunk('user/update', async (user: user) => 
     }).then(res => res.json());
     return user;
 });
-
-export const getUser = async () => {
-
-};
-
-export const createUser = async () => {
-
-};
-
-export const blockUser = async () => {
-
-};
-
-export const deleteUser = async () => {
-
-};
-
-
-export const updateItem = async () => {
-
-};
-
-export const createItem = async () => {
-
-};
-
-export const deleteItem = async () => {
-
-};
-
-export const getToken = () => { return localStorage.getItem('token'); }
-export const removeToken = () => { localStorage.removeItem('token'); }
-export const setToken = (token: string) => { localStorage.setItem('token', token); }
-
-
