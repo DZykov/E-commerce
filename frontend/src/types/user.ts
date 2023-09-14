@@ -1,5 +1,3 @@
-import address from "./address";
-
 type user = {
     id: number,
     firstname: string;
@@ -8,8 +6,11 @@ type user = {
     enabled: boolean;
     nonLocked: boolean;
     role: string;
-    address: address;
-    token: string;
+    street: "street",
+    city: "city",
+    country: "country",
+    postalCode: "postalCode",
+    access_token?: string;
 };
 
 export default user;

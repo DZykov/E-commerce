@@ -38,7 +38,42 @@ const cartSlice = createSlice({
         builder.addCase(updateCart.fulfilled, (_state, _action) => {
 
         });
+        builder.addCase(getCart.fulfilled, (state, action) => {
+            state = initialState;
+            action.payload.itemsId.forEach((item_id: number) => {
+                var p: product = {
+                    id: item_id,
+                    description: "",
+                    price: 0,
+                    name: "",
+                    category: "",
+                    pictures: [],
+                };
+                let _new: boolean = true;
+                state.forEach(function (pair: pair, index: number) {
+                    if (pair.item.id == action.payload.id) {
+                        state[index].count++;
+                        _new = false;
+                    }
+                });
+                if (_new) {
+                    state.push({ item: action.payload, count: 1 } as pair);
+                }
+            });
+        });
     }
+});
+
+export const getCart = createAsyncThunk('cart/get', async () => {
+
+    var data = await fetch('http://localhost:3000/api/cart/get/0', {
+        method: 'GET',
+        headers: new Headers({
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        }),
+    }).then(res => res.json());
+    return data;
 });
 
 export const updateCart = createAsyncThunk('cart/update', async (cart: pair[]) => {
@@ -47,7 +82,7 @@ export const updateCart = createAsyncThunk('cart/update', async (cart: pair[]) =
         items.concat(Array(pair.count).fill(pair.item.id));
     });
     var data = await fetch('http://localhost:3000/api/cart/add', {
-        method: 'POST',
+        method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'

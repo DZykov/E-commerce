@@ -13,7 +13,6 @@ const shopSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getProducts.fulfilled, (_state, action) => {
-            console.log(action.payload)
             return action.payload;
         });
         builder.addCase(getProductsSearch.fulfilled, (_state, action) => {
