@@ -1,4 +1,4 @@
-function ProductAdmin() {
+function Admin() {
 
     return (
         <>
@@ -7,4 +7,4 @@ function ProductAdmin() {
     )
 }
 
-export default ProductAdmin;
+export default Admin;

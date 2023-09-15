@@ -16,6 +16,7 @@ import java.util.List;
 import static com.dzykov.user.Role.ADMIN;
 import static com.dzykov.user.Role.MANAGER;
 
+// @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(value = {Endpoints.cartEndpoint})
 @RequiredArgsConstructor

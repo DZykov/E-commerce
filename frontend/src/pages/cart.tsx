@@ -16,8 +16,9 @@ function Cart() {
     function getTotal() {
         var total: number = 0;
         cartProducts.forEach(function (pair: pair) {
-            total += pair.count * parseFloat(pair.item.price);
+            total += pair.count * pair.item.price;
         });
+        total = Math.round((total + Number.EPSILON) * 100) / 100
         setPrice(total);
     }
 
@@ -36,6 +37,7 @@ function Cart() {
         cartProducts.forEach(function (pair: pair) {
             count += pair.count;
         });
+        count = Math.round((count + Number.EPSILON) * 100) / 100
         return count;
     }
 
@@ -43,11 +45,11 @@ function Cart() {
         <div className="col-span-1 flex flex-col bg-white border-2 p-4" key={pair.item.id}>
             <div className="my-auto">
                 <Link to={"/product/" + pair.item.id} className="block relative h-48 rounded overflow-hidden">
-                    <img alt="ecommerce" className="object-fit object-center w-auto h-48 block mx-auto" src={pair.item.image} />
+                    <img alt="ecommerce" className="object-fit object-center w-auto h-48 block mx-auto" src={pair.item.pictures[0]} />
                 </Link>
                 <h2 className="mb-2 font-bold text-2xl">
                     <Link to={"/product/" + pair.item.id}>
-                        {pair.item.title}
+                        {pair.item.name}
                     </Link>
                 </h2>
                 <div className="mb-4 flex flex-wrap">

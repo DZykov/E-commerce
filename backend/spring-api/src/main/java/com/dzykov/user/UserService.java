@@ -5,6 +5,7 @@ import com.dzykov.cart.CartsService;
 import com.dzykov.token.Token;
 import com.dzykov.token.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -105,5 +106,16 @@ public class UserService {
         userRepository.save(user);
         cartsService.createCartByUser(user);
         return user;
+    }
+
+    public void logoutUser(String jwt){
+        var storedToken = tokenRepository.findByToken(jwt)
+                .orElse(null);
+        if (storedToken != null) {
+            storedToken.setExpired(true);
+            storedToken.setRevoked(true);
+            tokenRepository.save(storedToken);
+            SecurityContextHolder.clearContext();
+        }
     }
 }

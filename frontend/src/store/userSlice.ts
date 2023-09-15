@@ -21,7 +21,10 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-
+        logout(state) {
+            state = initialState;
+            return state;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(registerUser.fulfilled, (state, action) => {
@@ -51,13 +54,13 @@ const userSlice = createSlice({
 
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state = action.payload;
-            state.access_token = "" + getToken;
+            state.access_token = "" + getToken();
         });
 
     },
 });
 
-export const { /*fetchProducts*/ } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
 
 export const registerUser = createAsyncThunk('user/register', async (user: user) => {
@@ -78,7 +81,7 @@ export const authUser = createAsyncThunk('user/auth', async (schema: {
     var data = await fetch('http://localhost:3000/api/auth/authenticate', {
         method: 'POST',
         headers: new Headers({
-            'Authorization': 'Bearer ' + getToken,
+            'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
         body: JSON.stringify(schema)
@@ -90,7 +93,7 @@ export const getMe = createAsyncThunk('user/get', async (id: number) => {
     var data = await fetch('http://localhost:3000/api/user/get/' + id, {
         method: 'GET',
         headers: new Headers({
-            'Authorization': 'Bearer ' + getToken,
+            'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
     }).then(res => res.json());

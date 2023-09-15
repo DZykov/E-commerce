@@ -33,6 +33,10 @@ const cartSlice = createSlice({
                 }
             });
         },
+        logout(state) {
+            state = initialState;
+            return state;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(updateCart.fulfilled, (_state, _action) => {
@@ -92,5 +96,5 @@ export const updateCart = createAsyncThunk('cart/update', async (cart: pair[]) =
     return data;
 });
 
-export const { add, removeItem, decrementItem } = cartSlice.actions;
+export const { add, removeItem, decrementItem, logout } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -25,7 +25,9 @@ export const { /*fetchProducts*/ } = shopSlice.actions;
 export default shopSlice.reducer;
 
 export const getProducts = createAsyncThunk('products/get', async () => {
-    var data = await fetch('http://localhost:3000/api/item/all')
+    var data = await fetch('http://localhost:3000/api/item/all', {
+        method: 'GET',
+    })
         .then(res => res.json());
     return data;
 });
