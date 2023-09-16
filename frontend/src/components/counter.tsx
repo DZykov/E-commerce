@@ -3,7 +3,7 @@ import pair from "../types/pair.ts";
 import { add, decrementItem } from "../store/cartSlice.ts";
 import { useState } from "react";
 
-function Counter(obj: pair) {
+function Counter(obj: pair): React.ReactElement {
 
     const [count, setCount] = useState(obj.count);
 

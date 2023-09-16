@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 import static com.dzykov.user.Role.ADMIN;
 import static com.dzykov.user.Role.MANAGER;
 
@@ -77,18 +79,18 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    // @Bean // BEAN ANNOTATION IS NOT NEEDED
+    @Bean // BEAN ANNOTATION IS NOT NEEDED
     public CorsConfigurationSource CorsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:5173");
         configuration.addAllowedOrigin("http://127.0.0.1:5173");
-        // configuration.setAllowedHeaders(Arrays.asList("http://localhost:5173", "http://127.0.0.1:5173"));
+        configuration.setAllowedHeaders(Arrays.asList("http://localhost:5173", "http://127.0.0.1:5173"));
         configuration.addAllowedMethod("GET");
         configuration.addAllowedMethod("PULL");
         configuration.addAllowedMethod("POST");
         configuration.addAllowedMethod("DELETE");
-        // configuration.addAllowedHeader("*");
-        // configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

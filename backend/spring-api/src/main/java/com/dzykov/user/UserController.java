@@ -26,11 +26,19 @@ public class UserController {
             tags = {"2. Manager", "user-controller", "3. User"},
             description = "Gets user's information. " +
                     "Admin or Manager has to provide an id of user. User has to provide id as 0 or any number")
-
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'MANAGER')")
+    @Secured(value = "USER")
     @GetMapping(value = {"/get/{id}"})
     public User getUserDetails(@PathVariable("id") Integer id) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
 
-        return userService.getUserById(id);
+        if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
+                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+            return userService.getUserById(id);
+
+        }
+        return userService.getUserById(
+                userService.getUserByEmail(securityContext.getAuthentication().getName()).getId());
     }
 
     @Operation(security = { @SecurityRequirement(name = "bearer-key") },

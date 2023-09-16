@@ -89,11 +89,11 @@ export const authUser = createAsyncThunk('user/auth', async (schema: {
     return data;
 });
 
-export const getMe = createAsyncThunk('user/get', async (id: number) => {
-    var data = await fetch('http://localhost:3000/api/user/get/' + id, {
+export const getMe = createAsyncThunk('user/get', async () => {
+    var data = await fetch('http://localhost:3000/api/user/get/0', {
         method: 'GET',
         headers: new Headers({
-            'Authorization': 'Bearer ' + getToken(),
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'
         }),
     }).then(res => res.json());

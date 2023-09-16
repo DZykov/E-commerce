@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import pair from "../types/pair.ts";
 import { RootState } from "../store/store.ts";
+import ImageSlider from "./gallery.tsx";
 
 function Product(product: product): ReactNode {
-
     const cartProducts: pair[] = useSelector<RootState>(state => state.cart) as pair[];
     const [count, setCount] = useState(0);
 
@@ -25,8 +25,11 @@ function Product(product: product): ReactNode {
         <>
             <section className="text-gray-600 body-font overflow-hidden">
                 <div className="container px-5 py-5 mx-auto">
-                    <div className="lg:w-4/5 mx-auto flex flex-wrap">
-                        <img alt="" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src={product.pictures[0]} />
+                    <div className="lg:w-4/5 mx-auto flex flex-wrap w-auto" style={{ height: "20rem" }}>
+                        <div className="lg:w-1/2 w-full lg:h-auto h-full object-cover object-center rounded">
+                            <ImageSlider {...product} />
+                        </div>
+
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" key={count}>
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.category}</h2>
                             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.name}</h1>
