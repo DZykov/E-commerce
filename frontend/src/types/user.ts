@@ -6,10 +6,10 @@ type user = {
     enabled: boolean;
     nonLocked: boolean;
     role: string;
-    street: "street",
-    city: "city",
-    country: "country",
-    postalCode: "postalCode",
+    street: string,
+    city: string,
+    country: string,
+    postalCode: string,
     access_token?: string;
 };
 

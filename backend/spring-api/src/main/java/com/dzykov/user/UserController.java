@@ -32,8 +32,9 @@ public class UserController {
     public User getUserDetails(@PathVariable("id") Integer id) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
-        if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
-                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+        if ((securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
+                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))) &&
+                id != 0){
             return userService.getUserById(id);
 
         }

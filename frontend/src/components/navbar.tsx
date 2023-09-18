@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import pair from "../types/pair";
-import { RootState } from "../store/store";
+import { RootState, useAppSelector } from "../store/store";
+import user from "../types/user";
 
 function Navbar() {
 
     const cartProducts: pair[] = useSelector<RootState>(state => state.cart) as pair[];
+    const user: user = useAppSelector((state: RootState) => state.user);
 
     function get_items() {
         var count: number = 0;
@@ -30,11 +32,27 @@ function Navbar() {
                                 >Shop</Link>
                             </li>
 
-                            <li className="mb-4 min-[250px]:mb-0 min-[250px]:pr-2">
-                                <Link className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 min-[250px]:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                                    to="/account">Account</Link>
-                            </li>
+                            {user.id != 0 ?
+                                <li className="mb-4 min-[250px]:mb-0 min-[250px]:pr-2">
+                                    <Link className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 min-[250px]:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                                        to="/account">Account</Link>
+                                </li>
+                                :
+                                <></>
+                            }
+
+                            {user.role == "ADMIN" || user.role == "MANAGER" ?
+                                <li className="mb-4 min-[250px]:mb-0 min-[250px]:pr-2">
+                                    <Link className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 min-[250px]:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                                        to="/admin">Admin panel</Link>
+                                </li>
+                                :
+                                <>
+                                </>
+                            }
                         </ul>
+
+
                     </div>
 
 
@@ -50,23 +68,43 @@ function Navbar() {
                             </span>
                         </Link>
 
-                        <Link className="mr-4 text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                            to="/account">
-                            <span className="[&>svg]:w-5">
-                                <svg width="45" height="45" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M42 24V9C42 7.34315 40.6569 6 39 6H9C7.34315 6 6 7.34315 6 9V39C6 40.6569 7.34315 42 9 42H24"
-                                        stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M39.0508 33L39.0508 43" stroke="#333" strokeWidth="1" strokeLinecap="round"
-                                        strokeLinejoin="round" />
-                                    <path d="M44 37.9497L34 37.9497" stroke="#333" strokeWidth="1" strokeLinecap="round"
-                                        strokeLinejoin="round" />
-                                    <circle cx="24" cy="18" r="5" fill="none" stroke="#333" strokeWidth="1" strokeLinecap="round"
-                                        strokeLinejoin="round" />
-                                    <path d="M33 31C33 26.5817 28.9706 23 24 23C19.0294 23 15 26.5817 15 31" stroke="#333"
-                                        strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                            </span>
-                        </Link>
+                        {user.id != 0 ?
+                            <Link className="mr-4 text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                                to="/account">
+                                <span className="[&>svg]:w-5">
+                                    <svg width="45" height="45" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M42 24V9C42 7.34315 40.6569 6 39 6H9C7.34315 6 6 7.34315 6 9V39C6 40.6569 7.34315 42 9 42H24"
+                                            stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M39.0508 33L39.0508 43" stroke="#333" strokeWidth="1" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M44 37.9497L34 37.9497" stroke="#333" strokeWidth="1" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <circle cx="24" cy="18" r="5" fill="none" stroke="#333" strokeWidth="1" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M33 31C33 26.5817 28.9706 23 24 23C19.0294 23 15 26.5817 15 31" stroke="#333"
+                                            strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                </span>
+                            </Link>
+                            :
+                            <Link className="mr-4 text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                                to="/login">
+                                <span className="[&>svg]:w-5">
+                                    <svg width="45" height="45" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M42 24V9C42 7.34315 40.6569 6 39 6H9C7.34315 6 6 7.34315 6 9V39C6 40.6569 7.34315 42 9 42H24"
+                                            stroke="#333" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M39.0508 33L39.0508 43" stroke="#333" strokeWidth="1" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M44 37.9497L34 37.9497" stroke="#333" strokeWidth="1" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <circle cx="24" cy="18" r="5" fill="none" stroke="#333" strokeWidth="1" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M33 31C33 26.5817 28.9706 23 24 23C19.0294 23 15 26.5817 15 31" stroke="#333"
+                                            strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                </span>
+                            </Link>
+                        }
 
                     </div>
                 </div>

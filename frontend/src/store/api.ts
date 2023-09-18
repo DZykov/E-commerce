@@ -120,7 +120,6 @@ export const getUser = async (id: number) => {
     return user;
 };
 
-
 export const updateItem = async (item: product, id: number) => {
     await fetch('http://localhost:3000/api/management/item/update/' + id, {
         method: 'PUT',

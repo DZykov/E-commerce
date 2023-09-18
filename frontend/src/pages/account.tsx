@@ -1,17 +1,53 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { RootState, useAppDispatch, useAppSelector } from "../store/store";
 import user from "../types/user";
+import { getMe, updateUser } from "../store/userSlice";
 
 function Account() {
 
     const user: user = useAppSelector((state: RootState) => state.user);
     const dispatch = useAppDispatch();
+
     const [edit, setEdit] = useState<boolean>(false)
     const [userN, setUser] = useState<user>(user)
+
     const editMode = () => setEdit(!edit)
-    // TODO
+
+    const firstRef = useRef<HTMLInputElement>(null);
+    const lastRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const countryRef = useRef<HTMLInputElement>(null);
+    const cityRef = useRef<HTMLInputElement>(null);
+    const streetRef = useRef<HTMLInputElement>(null);
+    const postalRef = useRef<HTMLInputElement>(null);
+
     const upgradeUser = () => {
 
+        if (firstRef.current!.value == null
+            || lastRef.current!.value == null
+            || emailRef.current!.value == null
+            || countryRef.current!.value == null
+            || cityRef.current!.value == null
+            || streetRef.current!.value == null
+            || postalRef.current!.value == null) {
+            return;
+        }
+        var new_user: user = {
+            firstname: firstRef.current!.value,
+            lastname: lastRef.current!.value,
+            email: emailRef.current!.value,
+            country: countryRef.current!.value,
+            city: cityRef.current!.value,
+            street: streetRef.current!.value,
+            postalCode: postalRef.current!.value,
+            id: userN.id,
+            role: userN.role,
+            enabled: userN.enabled,
+            nonLocked: userN.nonLocked
+        }
+        dispatch(updateUser(new_user));
+        dispatch(getMe()); // ?
+        setUser(user);
     }
 
     return (
@@ -34,7 +70,7 @@ function Account() {
                         >Edit</label>
                     </div>
                 </div>
-                <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+                <div className="border-t border-gray-200 px-4 py-5 sm:p-0" key={userN.id}>
                     <dl className="sm:divide-y sm:divide-gray-200">
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
@@ -43,44 +79,48 @@ function Account() {
 
                             {edit ?
                                 <>
-                                    <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="fname" name="fname" placeholder={userN.firstname}></input>
+                                    <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="fname" name="fname" ref={firstRef} placeholder={userN.firstname}></input>
                                     <br />
-                                    <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="lname" name="lname" placeholder={userN.lastname}></input>
+                                    <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="lname" name="lname" ref={lastRef} placeholder={userN.lastname}></input>
                                 </>
                                 :
-                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     {userN.firstname} {userN.lastname}
-                                </dd>
+                                </div>
                             }
 
-                        </div><div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">
-                                Email address
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {edit ?
-                                    <>
-                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="email" name="email" placeholder={userN.email}></input>
-                                    </>
-                                    :
-                                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        </div>
+
+                        {edit ?
+                            <>
+                            </>
+                            :
+                            <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">
+                                    Email address
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         {userN.email}
-                                    </dd>
-                                }
-                            </dd>
-                        </div><div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    </div>
+                                </dd>
+                            </div>
+                        }
+
+
+                        <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
                                 Country
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {edit ?
                                     <>
-                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="country" name="country" placeholder={userN.country}></input>
+                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="country" name="country" ref={countryRef} placeholder={userN.country}></input>
                                     </>
                                     :
-                                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         {userN.country}
-                                    </dd>
+                                    </div>
                                 }
                             </dd>
                         </div><div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -90,12 +130,12 @@ function Account() {
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {edit ?
                                     <>
-                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="city" name="city" placeholder={userN.city}></input>
+                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="city" name="city" ref={cityRef} placeholder={userN.city}></input>
                                     </>
                                     :
-                                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         {userN.city}
-                                    </dd>
+                                    </div>
                                 }
                             </dd>
                         </div><div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -105,12 +145,12 @@ function Account() {
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {edit ?
                                     <>
-                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="street" name="street" placeholder={userN.street}></input>
+                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="street" name="street" ref={streetRef} placeholder={userN.street}></input>
                                     </>
                                     :
-                                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         {userN.street}
-                                    </dd>
+                                    </div>
                                 }
                             </dd>
                         </div><div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -120,12 +160,12 @@ function Account() {
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {edit ?
                                     <>
-                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="postalCode" name="postalCode" placeholder={userN.postalCode}></input>
+                                        <input className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" type="text" id="postalCode" name="postalCode" ref={postalRef} placeholder={userN.postalCode}></input>
                                     </>
                                     :
-                                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         {userN.postalCode}
-                                    </dd>
+                                    </div>
                                 }
                             </dd>
                             {edit ?
