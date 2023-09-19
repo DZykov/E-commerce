@@ -85,7 +85,7 @@ const ImageSlider = (slides: product) => {
             </div>
             <div style={slideStylesWidthBackground}></div>
             <div style={dotsContainerStyles}>
-                {slides.pictures.map((slide: string, slideIndex: number) => (
+                {slides.pictures.map((_slide: string, slideIndex: number) => (
                     <div
                         style={dotStyle}
                         key={slideIndex}
