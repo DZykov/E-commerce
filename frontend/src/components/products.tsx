@@ -49,7 +49,7 @@ function Products() {
     return (
         <>
             <section className="text-gray-600 body-font">
-                <div className="container mx-auto grid gap-4 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
+                <div className="container mx-auto grid gap-4 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 p-4">
                     {cards}
                 </div>
             </section>

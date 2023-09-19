@@ -25,8 +25,8 @@ function Product(product: product): ReactNode {
         <>
             <section className="text-gray-600 body-font overflow-hidden">
                 <div className="container px-5 py-5 mx-auto">
-                    <div className="lg:w-4/5 mx-auto flex flex-wrap w-auto" style={{ height: "20rem" }}>
-                        <div className="lg:w-1/2 w-full lg:h-auto h-full object-cover object-center rounded">
+                    <div className="lg:w-4/5 mx-auto flex flex-wrap w-auto">
+                        <div className="lg:w-1/2 w-full lg:h-auto h-full object-cover object-center rounded" style={{ height: "20rem" }}>
                             <ImageSlider {...product} />
                         </div>
 
