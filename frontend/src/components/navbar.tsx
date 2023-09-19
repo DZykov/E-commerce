@@ -19,7 +19,7 @@ function Navbar() {
 
     return (
         <>
-            <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-indigo-100 py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 min-[250px]:flex-wrap min-[250px]:justify-start min-[250px]:py-4"
+            <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-indigo-100 py-2 shadow-md shadow-black/5 dark:shadow-black/10 min-[250px]:flex-wrap min-[250px]:justify-start min-[250px]:py-4"
                 data-te-navbar-ref>
                 <div className="flex w-full flex-wrap items-center justify-between px-3">
 
@@ -28,13 +28,13 @@ function Navbar() {
 
                         <ul className="list-style-none mr-auto flex flex-col pl-0 min-[250px]:flex-row">
                             <li className="mb-4 min-[250px]:mb-0 min-[250px]:pr-2">
-                                <Link to={"/"} className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 min-[250px]:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
+                                <Link to={"/"} className="text-black transition duration-200 hover:text-indigo-700 hover:ease-in-out focus:text-indigo-700 disabled:text-black/30 motion-reduce:transition-none min-[250px]:px-2 [&.active]:text-black/90"
                                 >Shop</Link>
                             </li>
 
                             {user.id != 0 ?
                                 <li className="mb-4 min-[250px]:mb-0 min-[250px]:pr-2">
-                                    <Link className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 min-[250px]:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                                    <Link className="text-black transition duration-200 hover:text-indigo-700 hover:ease-in-out focus:text-indigo-700 disabled:text-black/30 motion-reduce:transition-none min-[250px]:px-2 [&.active]:text-black/90"
                                         to="/account">Account</Link>
                                 </li>
                                 :
@@ -43,7 +43,7 @@ function Navbar() {
 
                             {user.role == "ADMIN" || user.role == "MANAGER" ?
                                 <li className="mb-4 min-[250px]:mb-0 min-[250px]:pr-2">
-                                    <Link className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 min-[250px]:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                                    <Link className="text-black transition duration-200 hover:text-indigo-700 hover:ease-in-out focus:text-indigo-700 disabled:text-black/30 motion-reduce:transition-none min-[250px]:px-2 [&.active]:text-black/90"
                                         to="/admin">Admin panel</Link>
                                 </li>
                                 :
@@ -58,7 +58,7 @@ function Navbar() {
 
                     <div className="relative flex items-center">
                         <p>{get_items()}</p>
-                        <Link className="mr-4 text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                        <Link className="text-black transition duration-200 hover:text-indigo-700 hover:ease-in-out focus:text-indigo-700 disabled:text-black/30 motion-reduce:transition-none min-[250px]:px-2 [&.active]:text-black/90"
                             to="/cart">
                             <span className="[&>svg]:w-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -69,7 +69,7 @@ function Navbar() {
                         </Link>
 
                         {user.id != 0 ?
-                            <Link className="mr-4 text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                            <Link className="text-black transition duration-200 hover:text-indigo-700 hover:ease-in-out focus:text-indigo-700 disabled:text-black/30 motion-reduce:transition-none min-[250px]:px-2 [&.active]:text-black/900"
                                 to="/account">
                                 <span className="[&>svg]:w-5">
                                     <svg width="45" height="45" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

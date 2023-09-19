@@ -6,7 +6,7 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import './index.css';
+import './assets/main.css';
 import Shop from "./pages/shop.tsx";
 import Login from "./pages/login.tsx";
 import Register from "./pages/register.tsx";
