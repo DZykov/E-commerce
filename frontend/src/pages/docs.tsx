@@ -2,7 +2,7 @@ function Docs() {
 
     return (
         <>
-            <iframe src="http://localhost:3000/swagger-ui/index.html"
+            <iframe src="http://ecommerce.back.zykov.xyz/swagger-ui/index.html"
                 style={{
                     overflow: "hidden",
                     overflowY: "hidden",

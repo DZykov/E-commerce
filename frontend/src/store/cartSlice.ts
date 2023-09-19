@@ -51,7 +51,7 @@ const cartSlice = createSlice({
 
 export const getCart = createAsyncThunk('cart/get', async () => {
 
-    var data = await fetch('http://localhost:3000/api/cart/get/0', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/cart/get/0', {
         method: 'GET',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -64,7 +64,7 @@ export const getCart = createAsyncThunk('cart/get', async () => {
 
     const promises = data.map(async (id: number) => {
         const p = await fetch(
-            "http://localhost:3000/api/item/get/" + id)
+            "http://ecommerce.back.zykov.xyz/api/item/get/" + id)
             .then((res) => res.json());
         return p;
     });
@@ -92,7 +92,7 @@ export const updateCart = createAsyncThunk('cart/update', async (cart: pair[]) =
     cart.forEach(function (pair: pair, _index: number) {
         items = items.concat(Array(pair.count).fill(pair.item.id));
     });
-    var data = await fetch('http://localhost:3000/api/cart/add', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/cart/add', {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -107,7 +107,7 @@ export const updateCart = createAsyncThunk('cart/update', async (cart: pair[]) =
 
 export const addItemToCart = createAsyncThunk('cart/update', async (id: number) => {
 
-    var data = await fetch('http://localhost:3000/api/cart/add/' + id, {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/cart/add/' + id, {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),

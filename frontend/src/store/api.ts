@@ -28,7 +28,7 @@ const emptyProduct: product = {
 }
 
 export const createUser = async (user: user, password: string) => {
-    var data = await fetch('http://localhost:3000/api/management/user/create', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/management/user/create', {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -58,7 +58,7 @@ export const createUser = async (user: user, password: string) => {
 };
 
 export const updateUser = async (user: user, id: number) => {
-    var data = await fetch('http://localhost:3000/api/user/update/' + id, {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/user/update/' + id, {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -97,7 +97,7 @@ export const blockUser = async (block: boolean, id: number) => {
 };
 
 export const deleteUser = async (id: number) => {
-    await fetch('http://localhost:3000/api/management/user/delete/' + id, {
+    await fetch('http://ecommerce.back.zykov.xyz/api/management/user/delete/' + id, {
         method: 'DELETE',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -108,7 +108,7 @@ export const deleteUser = async (id: number) => {
 };
 
 export const getUser = async (id: number) => {
-    var data = await fetch('http://localhost:3000/api/user/get/' + id, {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/user/get/' + id, {
         method: 'GET',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -132,7 +132,7 @@ export const getUser = async (id: number) => {
 };
 
 export const updateItem = async (item: product, id: number) => {
-    await fetch('http://localhost:3000/api/item/update/' + id, {
+    await fetch('http://ecommerce.back.zykov.xyz/api/item/update/' + id, {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -144,7 +144,7 @@ export const updateItem = async (item: product, id: number) => {
 };
 
 export const createItem = async (item: product) => {
-    await fetch('http://localhost:3000/api/item/create', {
+    await fetch('http://ecommerce.back.zykov.xyz/api/item/create', {
         method: 'POST',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -158,7 +158,7 @@ export const createItem = async (item: product) => {
 };
 
 export const deleteItem = async (id: number) => {
-    var data = fetch('http://localhost:3000/api/item/delete/' + id, {
+    var data = fetch('http://ecommerce.back.zykov.xyz/api/item/delete/' + id, {
         method: 'DELETE',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -172,7 +172,7 @@ export const deleteItem = async (id: number) => {
 
 export const getItem = async (id: number) => {
     var data = await fetch(
-        "http://localhost:3000/api/item/get/" + id)
+        "http://ecommerce.back.zykov.xyz/api/item/get/" + id)
         .then((res) => res.json());
     let item: product = emptyProduct;
     item.category = data.category;
@@ -185,7 +185,7 @@ export const getItem = async (id: number) => {
 }
 
 export const logout = async () => {
-    fetch('http://localhost:3000/api/user/logout', {
+    fetch('http://ecommerce.back.zykov.xyz/api/user/logout', {
         method: 'POST',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken()

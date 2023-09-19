@@ -68,7 +68,7 @@ export const { logout } = userSlice.actions;
 export default userSlice.reducer;
 
 export const registerUser = createAsyncThunk('user/register', async (user: user & { password: string }) => {
-    var data = await fetch('http://localhost:3000/api/auth/register', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/auth/register', {
         method: 'POST',
         headers: new Headers({
             'Content-Type': 'application/json'
@@ -82,7 +82,7 @@ export const authUser = createAsyncThunk('user/auth', async (schema: {
     "email": string;
     "password": string;
 }) => {
-    var data = await fetch('http://localhost:3000/api/auth/authenticate', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/auth/authenticate', {
         method: 'POST',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -99,7 +99,7 @@ export const authUser = createAsyncThunk('user/auth', async (schema: {
 });
 
 export const getMe = createAsyncThunk('user/get', async () => {
-    var data = await fetch('http://localhost:3000/api/user/get/0', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/user/get/0', {
         method: 'GET',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -115,7 +115,7 @@ export const getMe = createAsyncThunk('user/get', async () => {
 });
 
 export const updateUser = createAsyncThunk('user/update', async (user: user) => {
-    var data = await fetch('http://localhost:3000/api/user/update/0', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/user/update/0', {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),

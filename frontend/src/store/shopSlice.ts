@@ -25,7 +25,7 @@ export const { /*fetchProducts*/ } = shopSlice.actions;
 export default shopSlice.reducer;
 
 export const getProducts = createAsyncThunk('products/get', async () => {
-    var data = await fetch('http://localhost:3000/api/item/all', {
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/item/all', {
         method: 'GET',
     })
         .then(res => res.json());
@@ -34,11 +34,11 @@ export const getProducts = createAsyncThunk('products/get', async () => {
 
 export const getProductsSearch = createAsyncThunk('products/search', async (search: string) => {
     if (search) {
-        var data = await fetch('http://localhost:3000/api/item/search?query=' + search)
+        var data = await fetch('http://ecommerce.back.zykov.xyz/api/item/search?query=' + search)
             .then(res => res.json());
         return data;
     }
-    var data = await fetch('http://localhost:3000/api/item/all')
+    var data = await fetch('http://ecommerce.back.zykov.xyz/api/item/all')
         .then(res => res.json());
     return data;
 });
