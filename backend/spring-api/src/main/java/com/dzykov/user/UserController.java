@@ -47,13 +47,14 @@ public class UserController {
             description = "Updates user's information. " +
                     "Admin or Manager has to provide an id of user. User has to provide id as 0 or any number")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'MANAGER')")
-    @Secured(value = "USER")
+    @Secured(value = {"USER"})
     @PutMapping(value = {"/update/{id}"}, consumes = "application/json", produces = "application/json")
     public User updateUserDetails(@PathVariable("id") Integer id, @RequestBody User user) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
         if (securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + MANAGER.name())) ||
-                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name()))){
+                securityContext.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_" + ADMIN.name())) &&
+                        id != 0){
             return userService.updateUserById(id, user);
 
         }

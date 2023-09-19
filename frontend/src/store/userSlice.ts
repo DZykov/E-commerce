@@ -23,13 +23,13 @@ const userSlice = createSlice({
     reducers: {
         logout(state) {
             state = initialState;
+            setToken("");
             return state;
         }
     },
     extraReducers: (builder) => {
         builder.addCase(registerUser.fulfilled, (state, action) => {
-            state = action.payload[1];
-            state.access_token = action.payload[0].access_token;
+            state.access_token = action.payload.access_token;
             setToken(state.access_token!);
         });
 
@@ -67,7 +67,7 @@ const userSlice = createSlice({
 export const { logout } = userSlice.actions;
 export default userSlice.reducer;
 
-export const registerUser = createAsyncThunk('user/register', async (user: user) => {
+export const registerUser = createAsyncThunk('user/register', async (user: user & { password: string }) => {
     var data = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: new Headers({
@@ -75,12 +75,12 @@ export const registerUser = createAsyncThunk('user/register', async (user: user)
         }),
         body: JSON.stringify(user)
     }).then(res => res.json());
-    return [data, user];
+    return data;
 });
 
 export const authUser = createAsyncThunk('user/auth', async (schema: {
-    email: string;
-    password: string;
+    "email": string;
+    "password": string;
 }) => {
     var data = await fetch('http://localhost:3000/api/auth/authenticate', {
         method: 'POST',
@@ -102,11 +102,10 @@ export const getMe = createAsyncThunk('user/get', async () => {
     var data = await fetch('http://localhost:3000/api/user/get/0', {
         method: 'GET',
         headers: new Headers({
-            'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyQG1haWwuY29tIiwiaWF0IjoxNjk0OTk4OTg1LCJleHAiOjE2OTUwODUzODV9.vraovAVxt68SziwJ_gCQziJssCjAhX_guYpPYzBh0wc",
+            'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
     }).then(function (res) {
-        console.log()
         if (!res.ok) {
             return initialState;
         }

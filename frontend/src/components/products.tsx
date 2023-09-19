@@ -1,6 +1,6 @@
 import product from "../types/product";
 import { useEffect } from "react";
-import { add } from "../store/cartSlice";
+import { add, addItemToCart } from "../store/cartSlice";
 import { Link } from "react-router-dom";
 import { getProducts } from "../store/shopSlice";
 import { RootState, useAppDispatch, useAppSelector } from "../store/store";
@@ -18,8 +18,9 @@ function Products() {
         dispatch(getProducts());
     }, []);
 
-    const addToCart = (product: product) => {
+    const addToCart = async (product: product) => {
         dispatch(add(product));
+        await dispatch(addItemToCart(product.id))
     };
 
     const cards = products.map(product => (

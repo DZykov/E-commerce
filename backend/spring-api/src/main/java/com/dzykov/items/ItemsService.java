@@ -12,6 +12,14 @@ public class ItemsService {
     private final ItemsRepository itemsRepository;
 
     public Items createItem(Items item) {
+        if (item.getId() == null){
+            itemsRepository.save(item);
+            return item;
+        }
+        if (itemsRepository.findById(item.getId()).isPresent()) {
+            item.setId(null);
+            itemsRepository.save(item);
+        }
         itemsRepository.save(item);
         return item;
     }

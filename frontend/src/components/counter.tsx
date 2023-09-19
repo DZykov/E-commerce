@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
 import pair from "../types/pair.ts";
-import { add, decrementItem } from "../store/cartSlice.ts";
+import { add, decrementItem, updateCart } from "../store/cartSlice.ts";
 import { useState } from "react";
+import store, { useAppDispatch } from "../store/store.ts";
 
 function Counter(obj: pair): React.ReactElement {
 
@@ -16,15 +17,20 @@ function Counter(obj: pair): React.ReactElement {
     };
 
     const disppatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const addToCart = () => {
+    const addToCart = async () => {
         incrementCount();
         disppatch(add(obj.item));
+        //console.log(store.getState().cart)
+        await dispatch(updateCart(store.getState().cart));
     };
 
-    const decrementItemCart = () => {
+    const decrementItemCart = async () => {
         decrementCount();
         disppatch(decrementItem(obj.item));
+        //console.log(store.getState().cart)
+        await dispatch(updateCart(store.getState().cart));
     };
 
     return (

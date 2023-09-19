@@ -54,7 +54,6 @@ const dotStyle: CSS.Properties = {
 const ImageSlider = (slides: product) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    console.log(slides.pictures)
 
     const goToPrevious = () => {
         const isFirstSlide = currentIndex === 0;

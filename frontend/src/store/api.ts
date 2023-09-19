@@ -27,15 +27,20 @@ const emptyProduct: product = {
     pictures: []
 }
 
-export const createUser = async (user: user) => {
+export const createUser = async (user: user, password: string) => {
     var data = await fetch('http://localhost:3000/api/management/user/create', {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
-        body: JSON.stringify(user)
-    }).then(res => res.json());
+        body: JSON.stringify({ "user": user, "password": password })
+    }).then(function (res) {
+        if (!res.ok) {
+            return emptyUser;
+        }
+        return res.json()
+    });
     let user_n: user = emptyUser;
     user_n.city = data.city;
     user_n.id = data.id;
@@ -53,14 +58,19 @@ export const createUser = async (user: user) => {
 };
 
 export const updateUser = async (user: user, id: number) => {
-    var data = await fetch('http://localhost:3000/api/management/user/update/' + id, {
+    var data = await fetch('http://localhost:3000/api/user/update/' + id, {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
         body: JSON.stringify(user)
-    }).then(res => res.json());
+    }).then(function (res) {
+        if (!res.ok) {
+            return emptyUser;
+        }
+        return res.json();
+    });
     let user_n: user = emptyUser;
     user_n.city = data.city;
     user_n.id = data.id;
@@ -87,12 +97,14 @@ export const blockUser = async (block: boolean, id: number) => {
 };
 
 export const deleteUser = async (id: number) => {
-    await fetch('/api/management/user/delete/' + id, {
+    await fetch('http://localhost:3000/api/management/user/delete/' + id, {
         method: 'DELETE',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
         }),
-    }).then(res => res.json());
+    }).then(function (res) {
+        return res.json();
+    });
 };
 
 export const getUser = async (id: number) => {
@@ -103,7 +115,6 @@ export const getUser = async (id: number) => {
             'Content-Type': 'application/json'
         }),
     }).then(res => res.json());
-    console.log(data);
     let user: user = emptyUser;
     user.city = data.city;
     user.id = data.id;
@@ -121,7 +132,7 @@ export const getUser = async (id: number) => {
 };
 
 export const updateItem = async (item: product, id: number) => {
-    await fetch('http://localhost:3000/api/management/item/update/' + id, {
+    await fetch('http://localhost:3000/api/item/update/' + id, {
         method: 'PUT',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
@@ -133,27 +144,31 @@ export const updateItem = async (item: product, id: number) => {
 };
 
 export const createItem = async (item: product) => {
-    await fetch('http://localhost:3000/api/management/item/create/', {
+    await fetch('http://localhost:3000/api/item/create', {
         method: 'POST',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
         body: JSON.stringify(item)
-    }).then(res => res.json());
+    }).then(function (res) {
+        return res.json();
+    });
     return item;
 };
 
 export const deleteItem = async (id: number) => {
-    fetch('http://localhost:3000/api/management/item/delete/' + id, {
-        method: 'PUT',
+    var data = fetch('http://localhost:3000/api/item/delete/' + id, {
+        method: 'DELETE',
         headers: new Headers({
             'Authorization': 'Bearer ' + getToken(),
             'Content-Type': 'application/json'
         }),
-    }).then(res => res.json());
+    }).then(function (res) {
+        return res.status;
+    });
+    return data;
 };
-
 
 export const getItem = async (id: number) => {
     var data = await fetch(

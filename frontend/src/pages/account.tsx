@@ -1,12 +1,15 @@
 import { useState, useRef } from "react";
 import { RootState, useAppDispatch, useAppSelector } from "../store/store";
 import user from "../types/user";
-import { getMe, updateUser } from "../store/userSlice";
+import { getMe, logout, updateUser } from "../store/userSlice";
+import { logoutCart } from "../store/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 function Account() {
 
     const user: user = useAppSelector((state: RootState) => state.user);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const [edit, setEdit] = useState<boolean>(false)
     const [userN, setUser] = useState<user>(user)
@@ -15,27 +18,22 @@ function Account() {
 
     const firstRef = useRef<HTMLInputElement>(null);
     const lastRef = useRef<HTMLInputElement>(null);
-    const emailRef = useRef<HTMLInputElement>(null);
     const countryRef = useRef<HTMLInputElement>(null);
     const cityRef = useRef<HTMLInputElement>(null);
     const streetRef = useRef<HTMLInputElement>(null);
     const postalRef = useRef<HTMLInputElement>(null);
 
-    const upgradeUser = () => {
+    const logoutMe = async () => {
+        await dispatch(logout());
+        await dispatch(logoutCart());
+        navigate("/");
+    }
 
-        if (firstRef.current!.value == null
-            || lastRef.current!.value == null
-            || emailRef.current!.value == null
-            || countryRef.current!.value == null
-            || cityRef.current!.value == null
-            || streetRef.current!.value == null
-            || postalRef.current!.value == null) {
-            return;
-        }
+    const upgradeUser = async () => {
         var new_user: user = {
             firstname: firstRef.current!.value,
             lastname: lastRef.current!.value,
-            email: emailRef.current!.value,
+            email: userN.email,
             country: countryRef.current!.value,
             city: cityRef.current!.value,
             street: streetRef.current!.value,
@@ -45,9 +43,41 @@ function Account() {
             enabled: userN.enabled,
             nonLocked: userN.nonLocked
         }
-        dispatch(updateUser(new_user));
-        dispatch(getMe()); // ?
-        setUser(user);
+
+        if (!firstRef.current!.value) {
+            new_user.firstname = user.firstname;
+        }
+        if (!lastRef.current!.value) {
+            new_user.lastname = user.lastname;
+        }
+        if (!countryRef.current!.value) {
+            new_user.country = user.country;
+        }
+        if (!cityRef.current!.value) {
+            new_user.city = user.city;
+        }
+        if (!streetRef.current!.value) {
+            new_user.street = user.street;
+        }
+        if (!postalRef.current!.value) {
+            new_user.postalCode = user.postalCode;
+        }
+
+        await dispatch(updateUser(new_user));
+        var action = await dispatch(getMe());
+        new_user.city = action.payload.city;
+        new_user.id = action.payload.id;
+        new_user.country = action.payload.country;
+        new_user.email = action.payload.email;
+        new_user.enabled = action.payload.enabled;
+        new_user.firstname = action.payload.firstname;
+        new_user.id = action.payload.id;
+        new_user.lastname = action.payload.lastname;
+        new_user.nonLocked = action.payload.nonLocked;
+        new_user.postalCode = action.payload.postalCode;
+        new_user.role = action.payload.role;
+        new_user.street = action.payload.street;
+        setUser(new_user);
     }
 
     return (
@@ -184,6 +214,12 @@ function Account() {
                         </div>
                     </dl>
                 </div>
+                <button
+                    onClick={logoutMe}
+                    type="button"
+                    className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                    Logout
+                </button>
             </div >
         </>
     )
