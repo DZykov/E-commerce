@@ -50,5 +50,5 @@ Backend - contains all files for the API server. The API server is written in Ja
 
 ## Service Architecture
 
-![alt text](https://github.com/DZykov/E-commerce/blob/main/images/diagram.jpg?raw=true)
+![Service](https://raw.githubusercontent.com/DZykov/E-commerce/main/images/diagram.png)
 
